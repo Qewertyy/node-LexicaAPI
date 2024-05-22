@@ -1,0 +1,35 @@
+{
+    "name": "lexica-api-sdk",
+    "version": "1.0.10",
+    "description": "A Node.js SDK for interacting with the Lexica API",
+    "author": "Qewertyy <qewertyy.irl@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Qewertyy/LexicaAPI-SDK.git"
+    },
+    "keywords": [
+        "lexica-api",
+        "LLM's",
+        "Bard",
+        "ChatGPT",
+        "ai",
+        "gemini",
+        "Meta ai",
+        "anti-nsfw",
+        "stable diffusion",
+        "latent diffusion",
+        "image reverse search",
+        "image search",
+        "downloader"
+    ],
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/src/types.ts",
+    "dependencies": {
+        "@types/node": "^20.12.12",
+        "axios": "^1.7.1"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
+}
