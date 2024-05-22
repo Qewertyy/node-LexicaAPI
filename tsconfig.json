@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "module": "CommonJS"
+  },
+  "include": [
+    "src",
+    "*ts"
+  ],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}
