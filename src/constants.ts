@@ -9,11 +9,11 @@ export const commonHeaders = {
     "User-Agent": `Lexica/${version}`,
 };
 
-export const handleError = (error: AxiosError) : APIResponse => {
+export const handleError = (error: AxiosError) : APIResponse['data'] => {
     return (
         error.response?.data || {
         message: error.message,
         code: error.code,
         }
-    ) as APIResponse;
+    ) as APIResponse['data'];
 };
