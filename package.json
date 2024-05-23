@@ -1,6 +1,6 @@
 {
     "name": "lexica-api-sdk",
-    "version": "2.0.1",
+    "version": "2.0.4",
     "description": "A Node.js SDK for interacting with the Lexica API",
     "author": "Qewertyy <qewertyy.irl@gmail.com>",
     "repository": {
@@ -23,8 +23,7 @@
         "downloader"
     ],
     "license": "MIT",
-    "main": "dist/index.js",
-    "types": "dist/src/types.ts",
+    "main": "index.js",
     "dependencies": {
         "@types/node": "^20.12.12",
         "axios": "^1.7.1"
