@@ -93,7 +93,7 @@ class LexicaAPI {
                 throw new Error(
                     "Invalid string input. It is neither a valid URL nor a valid file path."
                 );
-            }
+            };
         } else if (image instanceof ArrayBuffer) {
             payload["image_data"] = Buffer.from(image).toString("base64");
             payload["format"] = format;
@@ -101,10 +101,10 @@ class LexicaAPI {
             throw new Error(
                 "Invalid input type. Input must be a string or an ArrayBuffer."
             );
-        }
+        };
         const response: APIResponse | AxiosError = await this.session.post(
             `/upscale`, payload, {
-                responseType: format === "url" ? "json" : "arraybuffer",
+                responseType:"arraybuffer",
             }).catch((error) => error);
         if (response instanceof AxiosError) return handleError(response);
         return response.data;

@@ -19,8 +19,7 @@ async function main(url){
     const client = new LexicaAPI();
     const image = await client.upscale(url,"url");
     // const image = await client.upscale('path/to/image.png');
-    // fs.writeFileSync('upscaled.png', image);
-    console.log(image);
+    fs.writeFileSync('upscaled.png', image);
 };
 
 main("https://graph.org/file/f101690e35767a7fe82b5.png");
