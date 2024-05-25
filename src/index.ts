@@ -199,6 +199,20 @@ class LexicaAPI {
         if (response instanceof AxiosError) return handleError(response);
         return response.data;
     };
+
+    /**
+     * @method getFreegames
+     * @description retuns with a list free games on Epic Games, Steam and other platforms.
+     * @returns {Promise<APIResponse['data']>} The response from the API.
+    **/
+
+    async getFreegames(): Promise<APIResponse["data"]> {
+        const response: APIResponse | AxiosError = await this.session.get(
+            `/freegames`
+        ).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
 }
 
 export { LexicaAPI };

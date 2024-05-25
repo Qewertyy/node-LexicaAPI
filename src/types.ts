@@ -10,7 +10,7 @@ export interface APIResponse extends AxiosResponse {
             }
         ]|{
             [key:string|number]:string
-        } | string;
+        } | string | FreeGames;
         models?:Models;
     }
 };
@@ -39,6 +39,20 @@ export type upscaleResponse = {
 } & APIResponse['data'] | ArrayBuffer;
 
 export type mediaPlatforms = "instagram"|"twitter"|"pinterest"|"reddit";
+
+export interface Game {
+    name: string,
+    description?: string,
+    url: string,
+    genres?: string[],
+    image?: string
+};
+
+export interface FreeGames {
+    epicGames: Game[],
+    steam: Game[],
+    other: Game[]
+};
 
 export type languageCodes =
   | 'am' // Amharic
