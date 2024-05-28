@@ -42,8 +42,8 @@ export type mediaPlatforms = "instagram"|"twitter"|"pinterest"|"reddit";
 
 export interface Game {
     name: string,
-    description?: string,
     url: string,
+    description?: string,
     genres?: string[],
     image?: string
 };
@@ -51,7 +51,7 @@ export interface Game {
 export interface FreeGames {
     epicGames: Game[],
     steam: Game[],
-    other: Game[]
+    standalone: Game[]
 };
 
 export type languageCodes =
