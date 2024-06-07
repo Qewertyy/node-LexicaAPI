@@ -10,7 +10,7 @@ export interface APIResponse extends AxiosResponse {
             }
         ]|{
             [key:string|number]:string
-        } | string | FreeGames;
+        } | string | FreeGames | inferenceResponse;
         models?:Models;
     }
 };
@@ -30,6 +30,11 @@ export interface messages {
     role:"user"|"assistant"|"system";
     content:string;
 };
+
+export type inferenceResponse = {
+    taskId:string|number;
+    requestId:string|number;
+}
 
 export type imageSearchEngines = "google"|"bing";
 export type reverseImageSearchEngines = "yandex" | imageSearchEngines;

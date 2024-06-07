@@ -130,3 +130,4 @@ dist
 .pnp.*
 index.js
 package-lock.json
+public

@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { baseURL, commonHeaders, handleError } from "./constants";
 import {
   APIResponse,
@@ -18,12 +18,17 @@ import * as fs from "fs";
 **/
 
 class LexicaAPI {
-    session: AxiosInstance;
+    private session: AxiosInstance;
+    /**
+     * @property models
+     * @description all available models.
+     * @type {Models|undefined}
+    **/
     models: Models | undefined;
     constructor() {
         this.session = axios.create({
-        baseURL: baseURL,
-        headers: commonHeaders,
+            baseURL: baseURL,
+            headers: commonHeaders,
         });
     };
 
@@ -32,7 +37,6 @@ class LexicaAPI {
      * @description all available models
      * @returns {Promise<APIResponse['data']['models']>} The response from the API.
     **/
-
     async getModels(): Promise<typeof this.models | APIResponse["data"]> {
         if (!this.models) {
             const response: APIResponse | AxiosError = await this.session.get("/models").catch((error) => error);
@@ -67,14 +71,12 @@ class LexicaAPI {
      * @method upscale
      * @description upscale images.
      * @param {ArrayBuffer|string} image path of the image or ArrayBuffer of the image or else HTTP URL of the image.
-     * @param {string} format format of the image (defaults to base64) if image url is provided then format is url.
      * @param {number|string} modelId model id (defaults to 38).
      * @returns {Promise<upscaleResponse>} The response from the API.
     **/
 
     async upscale(
         image: ArrayBuffer | string,
-        format: string = "base64",
         modelId: number | string = 38
     ): Promise<upscaleResponse> {
         const payload: { [key: string]: any } = {
@@ -88,7 +90,7 @@ class LexicaAPI {
                 payload["image_data"] = Buffer.from(fs.readFileSync(image)).toString(
                     "base64"
                 );
-                payload["format"] = format;
+                payload["format"] = "base64";
             } else {
                 throw new Error(
                     "Invalid string input. It is neither a valid URL nor a valid file path."
@@ -96,7 +98,7 @@ class LexicaAPI {
             };
         } else if (image instanceof ArrayBuffer) {
             payload["image_data"] = Buffer.from(image).toString("base64");
-            payload["format"] = format;
+            payload["format"] = "base64";
         } else {
             throw new Error(
                 "Invalid input type. Input must be a string or an ArrayBuffer."
@@ -199,6 +201,8 @@ class LexicaAPI {
         if (response instanceof AxiosError) return handleError(response);
         return response.data;
     };
+    // register a different name for same method
+    
 
     /**
      * @method getFreegames
@@ -213,6 +217,110 @@ class LexicaAPI {
         if (response instanceof AxiosError) return handleError(response);
         return response.data;
     };
+
+    /**
+     * @method webss
+     * @description take a screenshot of a website.
+     * @param {string} url url of the website.
+     * @returns {Promise<ArrayBuffer>} The response from the API.
+    **/
+
+    async webss(url:string) : Promise<ArrayBuffer|APIResponse['data']> {
+        const sanitizedURL = new URL(url);
+        const response : AxiosResponse | AxiosError = await this.session.get(
+            `/webss?url=${sanitizedURL.href}`,
+            { responseType:"arraybuffer" }
+        ).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
+
+    /**
+     * @method createInferenceTask
+     * @description create images using stable/latent diffusion models
+     * @param {number|string} modelId model id (defaults to 10).
+     * @param {string} prompt prompt for the image.
+     * @param {string} negativePrompt negative prompt for the image (things to avoid).
+     * @returns {Promise<APIResponse['data']>} The response from the API.
+    **/
+
+    async createInferenceTask(modelId:number|string=10,prompt:string,negativePrompt:string) : Promise<APIResponse['data']> {
+        const payload = {
+            model_id:modelId,
+            prompt:prompt,
+            negative_prompt:negativePrompt
+        };
+        const response : APIResponse | AxiosError = await this.session.post(
+            `/models/inference`,payload
+        ).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
+
+    /**
+     * @method getInferenceTask
+     * @description get task status and results.
+     * @param {string|number} taskId task id of the inference.
+     * @param {string|number} requestId request id of the inference.
+     * @returns {Promise<APIResponse['data']>} The response from the API.
+    **/
+
+    async getInferenceTask(taskId:string|number,requestId:string|number) : Promise<APIResponse['data']> {
+        const payload = {
+            task_id:taskId,
+            request_id:requestId
+        };
+        const response : APIResponse | AxiosError = await this.session.post(
+            `/models/inference/task`,
+            payload
+        ).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
+    
+    /**
+     * @method antinsfw
+     * @description check if an image is NSFW.
+     * @param {ArrayBuffer|string} image path of the image or ArrayBuffer of the image or else HTTP URL of the image.
+     * @param {number|string} modelId model id (defaults to 29).
+     * @returns {Promise<upscaleResponse>} The response from the API.
+    **/
+
+    async antinsfw(
+        image: ArrayBuffer | string,
+        modelId: number | string = 29
+    ): Promise<upscaleResponse> {
+        const payload: { [key: string]: any } = {
+            model_id: modelId,
+        };
+        if (typeof image === "string") {
+            if (image.startsWith("http://") || image.startsWith("https://")) {
+                payload["image_url"] = image;
+                payload["format"] = "url";
+            } else if (fs.existsSync(image) && fs.lstatSync(image).isFile()) {
+                payload["image"] = Buffer.from(fs.readFileSync(image)).toString(
+                    "base64"
+                );
+                payload["format"] = "base64";
+            } else {
+                throw new Error(
+                    "Invalid string input. It is neither a valid URL nor a valid file path."
+                );
+            };
+        } else if (image instanceof ArrayBuffer) {
+            payload["image"] = Buffer.from(image).toString("base64");
+            payload["format"] = "base64";
+        } else {
+            throw new Error(
+                "Invalid input type. Input must be a string or an ArrayBuffer."
+            );
+        };
+        const response: APIResponse | AxiosError = await this.session.post(
+            `/anti-nsfw`, payload).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
+
 }
 
 export { LexicaAPI };

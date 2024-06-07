@@ -8,9 +8,9 @@ Install the package
 npm i lexica-api-sdk
 ```
 
-## Usage
-#### Upscale An Image
+## Examples
 
+### Upscale an image
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
 const fs = require('fs');
@@ -25,7 +25,7 @@ async function main(url){
 main("https://graph.org/file/f101690e35767a7fe82b5.png");
 ```
 
-#### Chat With AI
+### Chat with ai
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
 
@@ -48,7 +48,7 @@ async function main(prompt){
 main("What is the capital of France?");
 ```
 
-#### Image Search
+### Image search
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
 
@@ -61,7 +61,7 @@ async function main(query){
 main("akeno");
 ```
 
-#### Reverse Image Search
+### Reverse image search
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
 
@@ -74,7 +74,7 @@ async function main(url){
 main("https://graph.org/file/f101690e35767a7fe82b5.png");
 ```
 
-#### Social Media Downloader
+### Social media downloader
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
 
@@ -87,7 +87,7 @@ async function main(url){
 main("https://twitter.com/Starlink/status/1792678386353213567");
 ```
 
-#### Translation
+### Translation
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
 
@@ -98,6 +98,48 @@ async function main(text){
 };
 
 main("Hello World");
+```
+
+### Free games
+#### on various platforms such as Epic Games, Steam, etc.
+```js
+const { LexicaAPI } = require('lexica-api-sdk');
+
+async function main(){
+    const client = new LexicaAPI();
+    const games = await client.getFreegames();
+    console.log(games);
+};
+
+main();
+```
+
+### Web screenshot
+```js
+const { LexicaAPI } = require('lexica-api-sdk');
+const fs = require('fs');
+
+async function main(url){
+    const client = new LexicaAPI();
+    const ss = await client.webss(url);
+    fs.writeFileSync('screenshot.png', ss);
+};
+
+main("https://github.com/Qewertyy");
+```
+
+### Anti-NSFW
+```js
+const { LexicaAPI } = require('lexica-api-sdk');
+const fs = require('fs');
+
+async function main(image){
+    const client = new LexicaAPI();
+    const results = await client.antinsfw(image);
+    console.log(results)
+};
+// path of an image or a valid HTTP image URL.
+main("f101690e35767a7fe82b5.png");
 ```
 
 ### License
