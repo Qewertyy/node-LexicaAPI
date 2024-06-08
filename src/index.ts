@@ -9,12 +9,14 @@ import {
   upscaleResponse,
   mediaPlatforms,
   languageCodes,
+  newsCategories,
 } from "./types";
 import * as fs from "fs";
 
 /**
  * @class LexicaAPI
- * @description A class to interact with `Lexica API` @link https://lexica.qewertyy.dev/docs.
+ * @description A class to interact with [Lexica API](https://lexica.qewertyy.dev).
+ * @see https://lexica.qewertyy.dev/docs
 **/
 
 class LexicaAPI {
@@ -36,6 +38,7 @@ class LexicaAPI {
      * @method getModels
      * @description all available models
      * @returns {Promise<APIResponse['data']['models']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/LLMs/get_models
     **/
     async getModels(): Promise<typeof this.models | APIResponse["data"]> {
         if (!this.models) {
@@ -52,6 +55,7 @@ class LexicaAPI {
      * @param {number|string} modelId model id.
      * @param {messages} messages messages.
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/LLMs
     **/
 
     async chatCompletion(
@@ -73,6 +77,7 @@ class LexicaAPI {
      * @param {ArrayBuffer|string} image path of the image or ArrayBuffer of the image or else HTTP URL of the image.
      * @param {number|string} modelId model id (defaults to 38).
      * @returns {Promise<upscaleResponse>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Upscale
     **/
 
     async upscale(
@@ -119,6 +124,7 @@ class LexicaAPI {
      * @param {string|number} page page number (defaults to 0).
      * @param {string} engine search engine (defaults to google).
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Image%20Search
     **/
 
     async searchImages(
@@ -142,6 +148,7 @@ class LexicaAPI {
      * @param {string} image image URL.
      * @param {reverseImageSearchEngines} engine reverse image search engine (defaults to yandex).
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Reverse%20Image%20Search
     **/
 
     async reverseImageSearch(
@@ -164,6 +171,7 @@ class LexicaAPI {
      * @param {mediaPlatforms} platform social media platform.
      * @param {string} postUrl post URL.
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Social%20Media%20Downloader
     **/
 
     async downloadMedia(
@@ -186,6 +194,7 @@ class LexicaAPI {
      * @param {string} text text to translate.
      * @param {languageCodes} lang language code (defaults to en).
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Translation
     **/
 
     async translate(
@@ -201,13 +210,12 @@ class LexicaAPI {
         if (response instanceof AxiosError) return handleError(response);
         return response.data;
     };
-    // register a different name for same method
-    
 
     /**
      * @method getFreegames
      * @description retuns with a list free games on Epic Games, Steam and other platforms.
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Free%20Games
     **/
 
     async getFreegames(): Promise<APIResponse["data"]> {
@@ -223,6 +231,7 @@ class LexicaAPI {
      * @description take a screenshot of a website.
      * @param {string} url url of the website.
      * @returns {Promise<ArrayBuffer>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Take%20Screenshot
     **/
 
     async webss(url:string) : Promise<ArrayBuffer|APIResponse['data']> {
@@ -242,9 +251,13 @@ class LexicaAPI {
      * @param {string} prompt prompt for the image.
      * @param {string} negativePrompt negative prompt for the image (things to avoid).
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Image%20Generations
     **/
 
-    async createInferenceTask(modelId:number|string=10,prompt:string,negativePrompt:string) : Promise<APIResponse['data']> {
+    async createInferenceTask(
+        modelId:number|string=10,
+        prompt:string,negativePrompt:string
+    ) : Promise<APIResponse['data']> {
         const payload = {
             model_id:modelId,
             prompt:prompt,
@@ -263,9 +276,13 @@ class LexicaAPI {
      * @param {string|number} taskId task id of the inference.
      * @param {string|number} requestId request id of the inference.
      * @returns {Promise<APIResponse['data']>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Image%20Generations
     **/
 
-    async getInferenceTask(taskId:string|number,requestId:string|number) : Promise<APIResponse['data']> {
+    async getInferenceTask(
+        taskId:string|number,
+        requestId:string|number
+    ) : Promise<APIResponse['data']> {
         const payload = {
             task_id:taskId,
             request_id:requestId
@@ -284,6 +301,7 @@ class LexicaAPI {
      * @param {ArrayBuffer|string} image path of the image or ArrayBuffer of the image or else HTTP URL of the image.
      * @param {number|string} modelId model id (defaults to 29).
      * @returns {Promise<upscaleResponse>} The response from the API.
+     * @see https://lexica.qewertyy.dev/docs/#/Anti-NSFW
     **/
 
     async antinsfw(
@@ -317,6 +335,50 @@ class LexicaAPI {
         };
         const response: APIResponse | AxiosError = await this.session.post(
             `/anti-nsfw`, payload).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
+
+    /**
+     * @method news
+     * @description get news for various categories.
+     * @param {newsCategories} category news category.
+     * @param {number|string} page page number (defaults to 1).
+     * @returns {Promise<upscaleResponse>} The response from the API.
+    **/
+
+    async news(
+        category:newsCategories,
+        page : number = 1
+    ) : Promise<APIResponse['data']> {
+        const params = new URLSearchParams();
+        params.append("category",category);
+        params.append("page",page.toString());
+        const response : APIResponse | AxiosError = await this.session.get(
+            `/news?${params.toString()}`
+        ).catch((error) => error);
+        if (response instanceof AxiosError) return handleError(response);
+        return response.data;
+    };
+
+    /**
+     * @method trendingNews
+     * @description get trending news.
+     * @param {number} limit number of news to return (defaults to 5).
+     * @param {number|string} newsOffset news offset.
+     * @returns {Promise<upscaleResponse>} The response from the API.
+    **/
+
+    async trendingNews(
+        limit:number = 5,
+        newsOffset: number|string
+    ) : Promise<APIResponse['data']>{
+        const params = new URLSearchParams();
+        params.append("limit",limit.toString());
+        if (newsOffset) params.append("newsOffset",newsOffset.toString());
+        const response : APIResponse | AxiosError = await this.session.get(
+            `/trending-news?${params.toString()}`
+        ).catch((error) => error);
         if (response instanceof AxiosError) return handleError(response);
         return response.data;
     };

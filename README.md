@@ -15,13 +15,13 @@ npm i lexica-api-sdk
 const { LexicaAPI } = require('lexica-api-sdk');
 const fs = require('fs');
 
-async function main(url){
+async function main(image){
     const client = new LexicaAPI();
-    const image = await client.upscale(url,"url");
-    // const image = await client.upscale('path/to/image.png');
+    const image = await client.upscale(image);
     fs.writeFileSync('upscaled.png', image);
 };
 
+// path of an image or a valid HTTP image URL.
 main("https://graph.org/file/f101690e35767a7fe82b5.png");
 ```
 
@@ -131,7 +131,6 @@ main("https://github.com/Qewertyy");
 ### Anti-NSFW
 ```js
 const { LexicaAPI } = require('lexica-api-sdk');
-const fs = require('fs');
 
 async function main(image){
     const client = new LexicaAPI();
@@ -140,6 +139,20 @@ async function main(image){
 };
 // path of an image or a valid HTTP image URL.
 main("f101690e35767a7fe82b5.png");
+```
+
+### News
+```js
+const { LexicaAPI } = require('lexica-api-sdk');
+
+async function main(){
+    const client = new LexicaAPI();
+    const trendingNews = await client.trendingNews();
+    const news = await client.news('Anime');
+    console.log(trendingNews,news);
+};
+
+main();
 ```
 
 ### License
