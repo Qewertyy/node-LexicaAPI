@@ -155,6 +155,31 @@ async function main(){
 main();
 ```
 
+## Here are some projects which utilizes the LexicaAPI.
+
+### AverageAI
+- **Name:** [AverageAI](https://ai.qewertyy.dev)
+- **Description:** Image Generations and LLMs.
+
+### AverageImages
+- **Name:** [AverageImages](https://images.qewertyy.dev)
+- **Description:** Search Images on google and bing.
+
+### Upscale
+- **Name:** [Upscale](https://upscale.qewertyy.dev)
+- **Description:** Upscale Images.
+
+### AverageNews
+- **Name:** [AverageNews](https://news.qewertyy.dev)
+- **Description:** News App.
+
+### Social-DL
+- **Name:** [Social-DL](https://social-dl.vercel.app)
+- **Description:** Download Videos/Images from social media.
+
+### TelegramBots
+[Miko](https://github.com/Awesome-Tofu/miko-bot), [AntiNSFWBot](https://telegram.me/ProtectYourGroupsRobot), [Sung](https://github.com/Dhruv-Tara/Sung), [GameInfoBot](https://github.com/barryspacezero/Telegram-GameInfoBot), [YaeMiko](https://github.com/Infamous-Hydra/YaeMiko), [FilterBot](https://github.com/Codeflix-Bots/AutoFilter), [News](https://github.com/SOMEH1NG/TechNewsDigest) [etc..](https://github.com/search?q=https%3A%2F%2Fapi.qewertyy.dev&type=code)
+
 ### License
 #### This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 ---

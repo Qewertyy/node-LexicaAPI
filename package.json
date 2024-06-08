@@ -5,7 +5,7 @@
     "author": "Qewertyy <qewertyy.irl@gmail.com>",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Qewertyy/LexicaAPI-SDK.git"
+        "url": "https://github.com/Qewertyy/node-LexicaAPI.git"
     },
     "keywords": [
         "lexica-api",
