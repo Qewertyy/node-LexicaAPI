@@ -43,7 +43,7 @@ export type upscaleResponse = {
     url?: string;
 } & APIResponse['data'] | ArrayBuffer;
 
-export type mediaPlatforms = "instagram" | "twitter" | "pinterest" | "reddit";
+export type mediaPlatforms = "instagram" | "twitter" | "pinterest" | "reddit" | "facebook";
 
 export interface Game {
     name: string,
